@@ -1,13 +1,12 @@
-def get_num_increased(it):
-    res = 0
+def prev_curr_iterator(it):
     prev = next(it)
-
     for curr in it:
-        if curr > prev:
-            res += 1
+        yield prev, curr
         prev = curr
 
-    return res
+
+def get_num_increased(it):
+    return sum(1 if curr > prev else 0 for prev, curr in prev_curr_iterator(it))
 
 
 if __name__ == "__main__":
