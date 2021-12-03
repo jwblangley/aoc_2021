@@ -1,6 +1,10 @@
-def get_num_increased(arr):
+def get_num_increased(it):
     res = 0
-    for i in range(1, len(arr)):
-        if arr[i] > arr[i - 1]:
+    prev = next(it)
+
+    for curr in it:
+        if curr > prev:
             res += 1
+        prev = curr
+
     return res
