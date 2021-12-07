@@ -3,7 +3,7 @@ import collections
 Location = collections.namedtuple("Location", ["displacement", "depth"])
 
 
-def parse_instructions(instructions):
+def parse_instructions(instructions, aim=False):
     displacement = 0
     depth = 0
     for ins in instructions:
@@ -22,7 +22,8 @@ def parse_instructions(instructions):
 
 if __name__ == "__main__":
     with open("inputs/day02_input.txt", "r") as data:
-        loc = parse_instructions(data)
+        loc = parse_instructions(data, aim=False)
 
+    print("Without aim")
     print(f"Location: {loc}")
-    print(f"Result: {loc.displacement * loc.depth}")
+    print(f"Result: {loc.displacement * loc.depth}\n")
