@@ -41,3 +41,51 @@ def test_parse_instructions(it, exp):
 
     # THEN
     assert res == exp
+
+
+@pytest.mark.parametrize(
+    "it", [iter(("sideways 1", "down 1")), iter(("forwarrd 2", "down 3", "ups 2"))]
+)
+def test_parse_instructions_command_invalid(it):
+    # GIVEN
+    """
+    input: it
+    expected result: exp
+    """
+
+    # THEN
+    with pytest.raises(RuntimeError):
+        # WHEN
+        parse_instructions(it)
+
+
+@pytest.mark.parametrize(
+    "it", [iter(("forward a", "down 1")), iter(("forward 2", "down 3", "up !"))]
+)
+def test_parse_instructions_value_invalid(it):
+    # GIVEN
+    """
+    input: it
+    expected result: exp
+    """
+
+    # THEN
+    with pytest.raises(ValueError):
+        # WHEN
+        parse_instructions(it)
+
+
+@pytest.mark.parametrize(
+    "it", [iter(("forward 1 1", "down 1")), iter(("forward 2", "down 3", "up 1 2"))]
+)
+def test_parse_instructions_syntax_invalid(it):
+    # GIVEN
+    """
+    input: it
+    expected result: exp
+    """
+
+    # THEN
+    with pytest.raises(ValueError):
+        # WHEN
+        parse_instructions(it)
