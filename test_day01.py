@@ -1,6 +1,6 @@
 import pytest
 
-from day01 import get_num_increased, prev_curr_iterator
+from day01 import get_num_increased, prev_curr_iterator, summing_window_iterator
 
 
 @pytest.mark.parametrize(
@@ -52,3 +52,29 @@ def test_get_num_increased(it, exp):
 
     # THEN
     assert res == exp
+
+
+@pytest.mark.parametrize(
+    "it,exp",
+    [
+        (iter((1, 2, 3)), iter((6,))),
+        (iter((1, 2, 3, 4, 5, 6)), iter((6, 9, 12, 15))),
+        (iter((1, 0, -2, 6, -4, 2)), iter((-1, 4, 0, 4))),
+    ],
+)
+def test_summing_window_iterator(it, exp):
+    # GIVEN
+    """
+    input: it
+    expected result: exp
+    """
+
+    # WHEN
+    res = summing_window_iterator(it, 3)
+
+    # THEN
+    for val in res:
+        assert val == next(exp)
+
+    with pytest.raises(StopIteration):
+        next(exp)

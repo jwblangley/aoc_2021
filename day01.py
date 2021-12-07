@@ -1,8 +1,22 @@
+import collections
+
+
 def prev_curr_iterator(it):
     prev = next(it)
     for curr in it:
         yield prev, curr
         prev = curr
+
+
+def summing_window_iterator(it, window_size):
+    assert window_size > 0, "Invalid window_size"
+
+    deq = collections.deque([], window_size)
+    for _ in range(window_size - 1):
+        deq.append(next(it))
+    for val in it:
+        deq.append(val)
+        yield sum(deq)
 
 
 def get_num_increased(it):
