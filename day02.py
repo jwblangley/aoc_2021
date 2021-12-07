@@ -18,3 +18,11 @@ def parse_instructions(instructions):
             raise RuntimeError(f"Invalid command: {command}")
 
     return Location(displacement, depth)
+
+
+if __name__ == "__main__":
+    with open("inputs/day02_input.txt", "r") as data:
+        loc = parse_instructions(data)
+
+    print(f"Location: {loc}")
+    print(f"Result: {loc.displacement * loc.depth}")
