@@ -25,6 +25,11 @@ def get_num_increased(it):
 
 if __name__ == "__main__":
     with open("inputs/day01_input.txt", "r") as data:
-        res = get_num_increased(int(line) for line in data)
+        incr = get_num_increased(int(line) for line in data)
+    print(f"Number increased: {incr}")
 
-    print(res)
+    with open("inputs/day01_input.txt", "r") as data:
+        sum_incr = get_num_increased(
+            summing_window_iterator((int(line) for line in data), 3)
+        )
+    print(f"Number increased (3 window): {sum_incr}")
