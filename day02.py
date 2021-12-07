@@ -36,3 +36,10 @@ if __name__ == "__main__":
     print("Without aim")
     print(f"Location: {loc}")
     print(f"Result: {loc.displacement * loc.depth}\n")
+
+    with open("inputs/day02_input.txt", "r") as data:
+        loc = parse_instructions(data, aiming=True)
+
+    print("With aim")
+    print(f"Location: {loc}")
+    print(f"Result: {loc.displacement * loc.depth}\n")
