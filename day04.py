@@ -9,6 +9,9 @@ class BingoBoard:
     def is_winner(self):
         return self.board_called.all(0).any() or self.board_called.all(1).any()
 
+    def call_number(self, number):
+        self.board_called[self.board == number] = True
+
 
 def bingo_board_reader(values, board_size):
     while True:

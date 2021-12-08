@@ -5,6 +5,11 @@ import numpy as np
 from day04 import BingoBoard, bingo_board_reader
 
 
+@pytest.fixture(name="example_board")
+def example_board_fixture():
+    return BingoBoard(5, range(25))
+
+
 @pytest.mark.parametrize(
     "size,values,exp",
     [
@@ -108,3 +113,32 @@ def test_board_is_winner(call_board, exp):
 
     # THEN
     assert res == exp
+
+
+@pytest.mark.parametrize(
+    "number,i,j",
+    [
+        (0, 0, 0),
+        (3, 0, 3),
+        (22, 4, 2),
+        (18, 3, 3),
+        (12, 2, 2),
+        (8, 1, 3),
+    ],
+)
+def test_board_call_number(example_board, number, i, j):
+    # GIVEN
+    """
+    example board fixture
+    call number: number
+
+    expected location: (i,j)
+    """
+    expected_call_board = np.zeros_like(example_board.board, dtype=bool)
+    expected_call_board[i, j] = True
+
+    # WHEN
+    example_board.call_number(number)
+
+    # THEN
+    assert np.array_equal(example_board.board_called, expected_call_board)
