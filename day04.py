@@ -4,7 +4,10 @@ import numpy as np
 class BingoBoard:
     def __init__(self, size, values):
         self.board = np.fromiter(values, int, count=size * size).reshape(size, size)
-        self.board_called = np.ones_like(self.board, dtype=bool)
+        self.board_called = np.zeros_like(self.board, dtype=bool)
+
+    def is_winner(self):
+        return self.board_called.all(0).any() or self.board_called.all(1).any()
 
 
 def bingo_board_reader(values, board_size):

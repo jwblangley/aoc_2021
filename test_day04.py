@@ -76,3 +76,35 @@ def test_bingo_board_reader_invalid(size, values):
     with pytest.raises(ValueError):
         # WHEN
         boards = [b.board for b in bingo_board_reader(iter(values), size)]
+
+
+@pytest.mark.parametrize(
+    "call_board,exp",
+    [
+        (np.array([[True]]), True),
+        (np.array([[False]]), False),
+        (np.array([[True, True], [True, True]]), True),
+        (np.array([[False, False], [True, True]]), True),
+        (np.array([[False, False], [False, False]]), False),
+        (np.array([[False, False], [True, True]]), True),
+        (np.array([[True, False], [True, False]]), True),
+        (np.array([[False, True], [False, True]]), True),
+        (np.array([[True, False], [False, True]]), False),
+        (np.array([[False, True], [True, False]]), False),
+    ],
+)
+def test_board_is_winner(call_board, exp):
+    # GIVEN
+    """
+    input: call_board
+    expected output: exp
+    """
+    size = call_board.shape[0]
+    board = BingoBoard(size, range(size * size))
+    board.board_called = call_board
+
+    # WHEN
+    res = board.is_winner()
+
+    # THEN
+    assert res == exp
