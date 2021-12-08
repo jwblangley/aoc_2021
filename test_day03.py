@@ -2,7 +2,7 @@ import pytest
 
 import numpy as np
 
-from day03 import gamma_epsilon_from_bin, numpy_bin_to_uint, left_match_filtering
+from day03 import gamma_epsilon_from_bin, numpy_bin_to_uint, oxygen_co2_rating_from_bin
 
 
 @pytest.mark.parametrize(
@@ -10,7 +10,7 @@ from day03 import gamma_epsilon_from_bin, numpy_bin_to_uint, left_match_filterin
     [
         (("10", "10"), (2, 1)),
         (("01", "01"), (1, 2)),
-        (("10", "01"), (3, 3)),
+        (("10", "01"), (3, 0)),
         (("011101", "010101", "011001"), (29, 34)),
         (
             (
@@ -31,7 +31,7 @@ from day03 import gamma_epsilon_from_bin, numpy_bin_to_uint, left_match_filterin
         ),
     ],
 )
-def test_gamma_episolon_from_bin(bin, exp):
+def test_gamma_epsilon_from_bin(bin, exp):
     # GIVEN
     """
     input: bin
@@ -99,29 +99,39 @@ def test_numpy_bin_to_uint(np_bin, exp):
 
 
 @pytest.mark.parametrize(
-    "arr,prefix,exp",
+    "bin,exp",
     [
-        (["abc", "bca", "cab"], "a", "abc"),
-        (["abc", "bca", "cab"], "b", "bca"),
-        (["abc", "bca", "cab"], "c", "cab"),
-        (["abc", "acb", "acc"], "ab", "abc"),
-        (["acc", "acb", "abc"], "ab", "abc"),
         (
-            ["123456789", "123456689", "123455789", "123446789", "123356789"],
-            "1234567",
-            "123456789",
+            (
+                "00100",
+                "11110",
+                "10110",
+                "10111",
+                "10101",
+                "01111",
+                "00111",
+                "11100",
+                "10000",
+                "11001",
+                "00010",
+                "01010",
+            ),
+            (23, 10),
         ),
     ],
 )
-def test_left_match_filtering_valid(arr, prefix, exp):
+def test_oxygen_co2_rating_from_bin(bin, exp):
     # GIVEN
     """
-    input: arr, prefix
+    input: bin
     expected output: exp
     """
+    bin = iter(bin)
+    exp_oxygen, exp_co2 = exp
 
     # WHEN
-    res = left_match_filtering(arr, prefix)
+    oxygen, co2 = oxygen_co2_rating_from_bin(bin)
 
     # THEN
-    assert res == exp
+    assert oxygen == exp_oxygen
+    assert co2 == exp_co2

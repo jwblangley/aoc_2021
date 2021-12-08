@@ -12,7 +12,16 @@ def numpy_bin_to_uint(np_bin):
     return acc
 
 
-def avg_bits(bin):
+def gamma_epsilon_from_bin(bin):
+    gamma, epsilon = most_least_common_bits(bin)
+
+    gamma = numpy_bin_to_uint(gamma)
+    epsilon = numpy_bin_to_uint(epsilon)
+
+    return gamma, epsilon
+
+
+def most_least_common_bits(bin):
     totals = None
     count = 0
 
@@ -27,35 +36,44 @@ def avg_bits(bin):
         count += 1
 
     avgs = totals / count
-    return avgs
+    most = (avgs >= 0.5).astype(int)
+    least = (avgs < 0.5).astype(int)
+    return most, least
 
 
-def gamma_epsilon_from_bin(bin):
-    avgs = avg_bits(bin)
-    gamma = (avgs >= 0.5).astype(int)
-    epsilon = (avgs <= 0.5).astype(int)
+def _rating_from_bin_list(l_bin, oxygen):
+    i = 0
+    while len(l_bin) > 1:
+        oxygen_bit_rating, co2_bit_rating = most_least_common_bits(iter(l_bin))
+        oxygen_bit_rating = "".join(oxygen_bit_rating.astype(str))
+        co2_bit_rating = "".join(co2_bit_rating.astype(str))
+        l_bin = [
+            b
+            for b in l_bin
+            if b[i] == (oxygen_bit_rating if oxygen else co2_bit_rating)[i]
+        ]
+        i += 1
 
-    gamma = numpy_bin_to_uint(gamma)
-    epsilon = numpy_bin_to_uint(epsilon)
+    if len(l_bin) != 1:
+        raise RuntimeError("No match found")
 
-    return gamma, epsilon
+    return l_bin[0]
 
 
-def left_match_filtering(arr, prefix):
-    for i in range(len(prefix)):
-        arr = [s for s in arr if s.startswith(prefix[: i + 1])]
-        if len(arr) == 1:
-            return arr[0]
-        if len(arr) == 0:
-            raise RuntimeError("No match found")
+def oxygen_co2_rating_from_bin(bin):
+    arr = list(bin)
+
+    oxygen_rating = _rating_from_bin_list(list(arr), True)
+    co2_rating = _rating_from_bin_list(list(arr), False)
+
+    return int(oxygen_rating, 2), int(co2_rating, 2)
 
 
 if __name__ == "__main__":
-    with open("inputs/day03_input.txt", "r") as binary:
-        lines = [line.strip() for line in binary]
-
     # Part 1
-    gamma, epsilon = gamma_epsilon_from_bin(l for l in lines)
+    with open("inputs/day03_input.txt", "r") as binary:
+        gamma, epsilon = gamma_epsilon_from_bin(line.strip() for line in binary)
+
     print(f"gamma: {gamma}")
     print(f"epsilon: {epsilon}")
     print(f"Result: {gamma * epsilon}")
