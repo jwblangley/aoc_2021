@@ -35,3 +35,12 @@ def gamma_epsilon_from_bin(bin):
     epsilon = numpy_bin_to_uint(epsilon)
 
     return gamma, epsilon
+
+
+if __name__ == "__main__":
+    with open("inputs/day03_input.txt", "r") as binary:
+        gamma, epsilon = gamma_epsilon_from_bin(line.strip() for line in binary)
+
+    print(f"gamma: {gamma}")
+    print(f"epsilon: {epsilon}")
+    print(f"Result: {gamma * epsilon}")
