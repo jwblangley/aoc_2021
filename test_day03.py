@@ -2,7 +2,7 @@ import pytest
 
 import numpy as np
 
-from day03 import gamma_epsilon_from_bin, numpy_bin_to_uint
+from day03 import gamma_epsilon_from_bin, numpy_bin_to_uint, left_match_filtering
 
 
 @pytest.mark.parametrize(
@@ -88,11 +88,40 @@ def test_numpy_bin_to_uint(np_bin, exp):
     # GIVEN
     """
     input: np_bin
-    expectetd output: exp
+    expected output: exp
     """
 
     # WHEN
     res = numpy_bin_to_uint(np_bin)
+
+    # THEN
+    assert res == exp
+
+
+@pytest.mark.parametrize(
+    "arr,prefix,exp",
+    [
+        (["abc", "bca", "cab"], "a", "abc"),
+        (["abc", "bca", "cab"], "b", "bca"),
+        (["abc", "bca", "cab"], "c", "cab"),
+        (["abc", "acb", "acc"], "ab", "abc"),
+        (["acc", "acb", "abc"], "ab", "abc"),
+        (
+            ["123456789", "123456689", "123455789", "123446789", "123356789"],
+            "1234567",
+            "123456789",
+        ),
+    ],
+)
+def test_left_match_filtering_valid(arr, prefix, exp):
+    # GIVEN
+    """
+    input: arr, prefix
+    expected output: exp
+    """
+
+    # WHEN
+    res = left_match_filtering(arr, prefix)
 
     # THEN
     assert res == exp

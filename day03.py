@@ -12,7 +12,7 @@ def numpy_bin_to_uint(np_bin):
     return acc
 
 
-def gamma_epsilon_from_bin(bin):
+def avg_bits(bin):
     totals = None
     count = 0
 
@@ -27,6 +27,11 @@ def gamma_epsilon_from_bin(bin):
         count += 1
 
     avgs = totals / count
+    return avgs
+
+
+def gamma_epsilon_from_bin(bin):
+    avgs = avg_bits(bin)
     gamma = (avgs >= 0.5).astype(int)
     epsilon = (avgs <= 0.5).astype(int)
 
@@ -36,10 +41,21 @@ def gamma_epsilon_from_bin(bin):
     return gamma, epsilon
 
 
+def left_match_filtering(arr, prefix):
+    for i in range(len(prefix)):
+        arr = [s for s in arr if s.startswith(prefix[: i + 1])]
+        if len(arr) == 1:
+            return arr[0]
+        if len(arr) == 0:
+            raise RuntimeError("No match found")
+
+
 if __name__ == "__main__":
     with open("inputs/day03_input.txt", "r") as binary:
-        gamma, epsilon = gamma_epsilon_from_bin(line.strip() for line in binary)
+        lines = [line.strip() for line in binary]
 
+    # Part 1
+    gamma, epsilon = gamma_epsilon_from_bin(l for l in lines)
     print(f"gamma: {gamma}")
     print(f"epsilon: {epsilon}")
     print(f"Result: {gamma * epsilon}")
