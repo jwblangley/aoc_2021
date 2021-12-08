@@ -1,6 +1,8 @@
 import pytest
 
-from day03 import gamma_epsilon_from_bin
+import numpy as np
+
+from day03 import gamma_epsilon_from_bin, numpy_bin_to_uint
 
 
 @pytest.mark.parametrize(
@@ -67,3 +69,30 @@ def test_gamma_episolon_from_bin_mismatched_lengths(bin):
     with pytest.raises(RuntimeError):
         # WHEN
         gamma_epsilon_from_bin(bin)
+
+
+@pytest.mark.parametrize(
+    "np_bin,exp",
+    [
+        (np.array([1]), 1),
+        (np.array([0]), 0),
+        (np.array([1, 0]), 2),
+        (np.array([1, 1]), 3),
+        (np.array([0, 1]), 1),
+        (np.array([0, 0, 0, 0, 1]), 1),
+        (np.array([1, 0, 1, 0, 1]), 21),
+        (np.array([1, 1, 0, 0, 1]), 25),
+    ],
+)
+def test_numpy_bin_to_uint(np_bin, exp):
+    # GIVEN
+    """
+    input: np_bin
+    expectetd output: exp
+    """
+
+    # WHEN
+    res = numpy_bin_to_uint(np_bin)
+
+    # THEN
+    assert res == exp
