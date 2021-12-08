@@ -77,3 +77,13 @@ if __name__ == "__main__":
     print(f"gamma: {gamma}")
     print(f"epsilon: {epsilon}")
     print(f"Result: {gamma * epsilon}")
+
+    # Part 2
+    with open("inputs/day03_input.txt", "r") as binary:
+        oxygen_rating, co2_rating = oxygen_co2_rating_from_bin(
+            line.strip() for line in binary
+        )
+
+    print(f"oxygen_rating: {oxygen_rating}")
+    print(f"co2_rating: {co2_rating}")
+    print(f"Result: {oxygen_rating * co2_rating}")
