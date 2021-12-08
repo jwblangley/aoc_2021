@@ -8,6 +8,7 @@ from day03 import gamma_epsilon_from_bin
     [
         (("10", "10"), (2, 1)),
         (("01", "01"), (1, 2)),
+        (("10", "01"), (3, 3)),
         (("011101", "010101", "011001"), (29, 34)),
         (
             (
@@ -43,3 +44,26 @@ def test_gamma_episolon_from_bin(bin, exp):
     # THEN
     assert gamma == exp_gamma
     assert epsilon == exp_epislon
+
+
+@pytest.mark.parametrize(
+    "bin",
+    [
+        ("11", "1"),
+        ("11", "11", "1"),
+        ("11", "1", "11"),
+        ("00", "0", "00"),
+    ],
+)
+def test_gamma_episolon_from_bin_mismatched_lengths(bin):
+    # GIVEN
+    """
+    input: bin
+    expected output: exp
+    """
+    bin = iter(bin)
+
+    # THEN
+    with pytest.raises(RuntimeError):
+        # WHEN
+        gamma_epsilon_from_bin(bin)
