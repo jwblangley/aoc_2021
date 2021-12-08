@@ -23,8 +23,7 @@ def gamma_epsilon_from_bin(bin):
         if len(line) != len(totals):
             raise RuntimeError("Mismatched binary lengths")
 
-        temp = np.array([int(c) for c in line])
-        totals += temp
+        totals += np.array([int(c) for c in line])
         count += 1
 
     avgs = totals / count
