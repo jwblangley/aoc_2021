@@ -136,7 +136,35 @@ def test_count_line_non_diagonal(line, grid_size, exp):
     li.count_line(line)
 
     # THEN
-    print(li)
-    print()
-    print(np.array(exp, dtype=int))
+    assert np.array_equal(li.grid, np.array(exp, dtype=int))
+
+
+@pytest.mark.parametrize(
+    "lines,grid_size,exp",
+    [
+        (
+            [Line(Point(1, 0), Point(1, 2)), Line(Point(1, 0), Point(1, 2))],
+            (3, 3),
+            [[0, 2, 0], [0, 2, 0], [0, 2, 0]],
+        ),
+        (
+            [Line(Point(0, 1), Point(2, 1)), Line(Point(1, 0), Point(1, 2))],
+            (3, 3),
+            [[0, 1, 0], [1, 2, 1], [0, 1, 0]],
+        ),
+    ],
+)
+def test_count_line_non_diagonal_multiline(lines, grid_size, exp):
+    # GIVEN
+    """
+    input: line
+    expected result: exp
+    """
+    li = LineIntersections(grid_size)
+
+    # WHEN
+    for line in lines:
+        li.count_line(line)
+
+    # THEN
     assert np.array_equal(li.grid, np.array(exp, dtype=int))
