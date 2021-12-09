@@ -1,6 +1,6 @@
 import pytest
 
-from day05 import parse_line_string, is_diagonal, Point, Line
+from day05 import LineIntersections, parse_line_string, is_diagonal, Point, Line
 
 
 @pytest.mark.parametrize(
@@ -46,6 +46,7 @@ def test_parse_line_string_valid(line_str, exp):
         "1, -> 3,4",
         "1,2 -> ,4",
         "1,2 -> 3,",
+        "1,-2 -> 3,4",
     ],
 )
 def test_parse_line_string_invalid(line_str):
@@ -83,3 +84,27 @@ def test_is_diagonal(line, exp):
 
     # THEN
     assert res == exp
+
+
+@pytest.mark.parametrize(
+    "line,grid_size",
+    [
+        (Line(Point(1, 1), Point(3, 1)), (3, 3)),
+        (Line(Point(0, 1), Point(5, 1)), (3, 3)),
+        (Line(Point(1, 1), Point(2, 3)), (3, 3)),
+        (Line(Point(2, 3), Point(1, 1)), (3, 3)),
+        (Line(Point(1, 1), Point(1, 5)), (3, 3)),
+        (Line(Point(1, -1), Point(2, 2)), (3, 3)),
+    ],
+)
+def test_count_line_invalid(line, grid_size):
+    # GIVEN
+    """
+    input: line
+    """
+    li = LineIntersections(grid_size)
+
+    # THEN
+    with pytest.raises(IndexError):
+        # WHEN
+        li.count_line(line)
