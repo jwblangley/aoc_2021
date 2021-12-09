@@ -1,5 +1,7 @@
 import pytest
 
+import numpy as np
+
 from day05 import LineIntersections, parse_line_string, is_diagonal, Point, Line
 
 
@@ -108,3 +110,33 @@ def test_count_line_invalid(line, grid_size):
     with pytest.raises(IndexError):
         # WHEN
         li.count_line(line)
+
+
+@pytest.mark.parametrize(
+    "line,grid_size,exp",
+    [
+        (Line(Point(0, 0), Point(0, 2)), (3, 3), [[1, 0, 0], [1, 0, 0], [1, 0, 0]]),
+        (Line(Point(0, 0), Point(0, 1)), (3, 3), [[1, 0, 0], [1, 0, 0], [0, 0, 0]]),
+        (Line(Point(0, 0), Point(0, 0)), (3, 3), [[1, 0, 0], [0, 0, 0], [0, 0, 0]]),
+        (Line(Point(0, 0), Point(2, 0)), (3, 3), [[1, 1, 1], [0, 0, 0], [0, 0, 0]]),
+        (Line(Point(0, 0), Point(1, 0)), (3, 3), [[1, 1, 0], [0, 0, 0], [0, 0, 0]]),
+        (Line(Point(0, 0), Point(0, 0)), (3, 3), [[1, 0, 0], [0, 0, 0], [0, 0, 0]]),
+        (Line(Point(1, 0), Point(1, 2)), (3, 3), [[0, 1, 0], [0, 1, 0], [0, 1, 0]]),
+    ],
+)
+def test_count_line_non_diagonal(line, grid_size, exp):
+    # GIVEN
+    """
+    input: line
+    expected result: exp
+    """
+    li = LineIntersections(grid_size)
+
+    # WHEN
+    li.count_line(line)
+
+    # THEN
+    print(li)
+    print()
+    print(np.array(exp, dtype=int))
+    assert np.array_equal(li.grid, np.array(exp, dtype=int))

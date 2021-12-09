@@ -54,3 +54,6 @@ class LineIntersections:
             raise IndexError(
                 f"Line overflows grid. line: {line}, grid: {self.grid.shape}"
             )
+
+        if not is_diagonal(line):
+            self.grid[min(y1, y2) : max(y1, y2) + 1, min(x1, x2) : max(x1, x2) + 1] += 1
