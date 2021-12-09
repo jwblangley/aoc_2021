@@ -1,6 +1,6 @@
 import pytest
 
-from day05 import parse_line_string, Point, Line
+from day05 import parse_line_string, is_diagonal, Point, Line
 
 
 @pytest.mark.parametrize(
@@ -42,6 +42,10 @@ def test_parse_line_string_valid(line_str, exp):
         "1,2 --> 3,4",
         "1 2 -> 3 4",
         "1,2, -> 3,4",
+        ",2 -> 3,4",
+        "1, -> 3,4",
+        "1,2 -> ,4",
+        "1,2 -> 3,",
     ],
 )
 def test_parse_line_string_invalid(line_str):
@@ -54,3 +58,28 @@ def test_parse_line_string_invalid(line_str):
     with pytest.raises(ValueError):
         # WHEN
         parse_line_string(line_str)
+
+
+@pytest.mark.parametrize(
+    "line,exp",
+    [
+        (Line(Point(1, 1), Point(2, 1)), False),
+        (Line(Point(1, 1), Point(5, 1)), False),
+        (Line(Point(1, 1), Point(2, 2)), True),
+        (Line(Point(2, 2), Point(1, 1)), True),
+        (Line(Point(1, 1), Point(1, 5)), False),
+        (Line(Point(1, 1), Point(3, 5)), True),
+    ],
+)
+def test_is_diagonal(line, exp):
+    # GIVEN
+    """
+    input: line
+    expected value: exp
+    """
+
+    # WHEN
+    res = is_diagonal(line)
+
+    # THEN
+    assert res == exp

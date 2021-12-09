@@ -20,3 +20,7 @@ def parse_line_string(line_str):
     p2 = Point(int(x2), int(y2))
 
     return Line(p1, p2)
+
+
+def is_diagonal(line):
+    return not (line.start.x == line.end.x or line.start.y == line.end.y)
