@@ -4,8 +4,6 @@ import re
 
 import numpy as np
 
-GRID_SIZE = (1000, 1000)
-
 Point = namedtuple("Point", ["x", "y"])
 Line = namedtuple("Line", ["start", "end"])
 
@@ -57,3 +55,19 @@ class LineIntersections:
 
         if not is_diagonal(line):
             self.grid[min(y1, y2) : max(y1, y2) + 1, min(x1, x2) : max(x1, x2) + 1] += 1
+        else:
+            raise NotImplementedError("Not yet implemented")
+
+
+if __name__ == "__main__":
+    GRID_SIZE = (1000, 1000)
+
+    li = LineIntersections(GRID_SIZE)
+    with open("inputs/day05_input.txt", "r") as lines:
+        for line in (
+            parse_line_string(l) for l in lines if not is_diagonal(parse_line_string(l))
+        ):
+            li.count_line(line)
+
+    num_overlaps = (li.grid >= 2).sum()
+    print(f"Number of overlaps (no diagonals): {num_overlaps}")
