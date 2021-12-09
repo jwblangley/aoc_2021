@@ -30,12 +30,11 @@ def bingo_board_reader(values, board_size):
 class BingoGame:
     def __init__(self, board_size, values):
         self.boards = list(bingo_board_reader(values, board_size))
-        self.last_call = None
+        self.last_winning_call = None
 
     def call_number(self, number):
         for board in self.boards:
             board.call_number(number)
-        self.last_call = number
 
     def winners(self):
         return [b for b in self.boards if b.is_winner()]
@@ -45,6 +44,8 @@ class BingoGame:
             self.call_number(call)
             winners = self.winners()
             if len(winners) > 0:
+                self.boards = [b for b in self.boards if not b.is_winner()]
+                self.last_winning_call = call
                 return winners
         return []
 
@@ -61,9 +62,26 @@ if __name__ == "__main__":
 
         winners = bg.play(calls)
 
+    # Winner
     assert len(winners) == 1
 
     winning_board = winners[0]
-    score = winning_board.board[~winning_board.board_called].sum() * bg.last_call
+    score = (
+        winning_board.board[~winning_board.board_called].sum() * bg.last_winning_call
+    )
 
     print(f"Winning board score: {score}")
+
+    # Last to win
+    while winners != []:
+        prev_winners = winners
+        winners = bg.play(calls)
+
+    assert len(prev_winners) == 1
+
+    winning_board = prev_winners[0]
+    score = (
+        winning_board.board[~winning_board.board_called].sum() * bg.last_winning_call
+    )
+
+    print(f"Last to win board score: {score}")
