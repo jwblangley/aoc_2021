@@ -31,3 +31,18 @@ def bingo_board_reader(values, board_size):
 class BingoGame:
     def __init__(self, board_size, values):
         self.boards = list(bingo_board_reader(values, board_size))
+
+    def call_number(self, number):
+        for board in self.boards:
+            board.call_number(number)
+
+    def winners(self):
+        return [b for b in self.boards if b.is_winner()]
+
+    def play(self, calls):
+        for call in calls:
+            self.call_number(call)
+            winners = self.winners()
+            if len(winners) > 0:
+                return winners
+        return []

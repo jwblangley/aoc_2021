@@ -2,7 +2,7 @@ import pytest
 
 import numpy as np
 
-from day04 import BingoBoard, bingo_board_reader
+from day04 import BingoBoard, BingoGame, bingo_board_reader
 
 
 @pytest.fixture(name="example_board")
@@ -142,3 +142,43 @@ def test_board_call_number(example_board, number, i, j):
 
     # THEN
     assert np.array_equal(example_board.board_called, expected_call_board)
+
+
+@pytest.mark.parametrize("num_players", list(range(1, 10)))
+@pytest.mark.parametrize("board_size", list(range(1, 10)))
+def test_integration_basic_bingo_game_single_winner(num_players, board_size):
+    # GIVEN
+    game = BingoGame(board_size, iter(range(board_size * board_size * num_players)))
+
+    # WHEN
+    winners = game.play(iter(range(board_size)))
+
+    # THEN
+    assert len(winners) == 1
+
+
+@pytest.mark.parametrize("num_players", list(range(1, 10)))
+@pytest.mark.parametrize("board_size", list(range(1, 10)))
+def test_integration_basic_bingo_game_multi_winners(board_size, num_players):
+    # GIVEN
+    board_values = list(range(board_size * board_size)) * num_players
+    game = BingoGame(board_size, iter(board_values))
+
+    # WHEN
+    winners = game.play(iter(range(board_size)))
+
+    # THEN
+    assert len(winners) == num_players
+
+
+@pytest.mark.parametrize("num_players", list(range(1, 10)))
+@pytest.mark.parametrize("board_size", list(range(1, 10)))
+def test_integration_basic_bingo_game_no_winners(board_size, num_players):
+    # GIVEN
+    game = BingoGame(board_size, iter(range(board_size * board_size * num_players)))
+
+    # WHEN
+    winners = game.play(iter(range(board_size - 1)))
+
+    # THEN
+    assert len(winners) == 0
