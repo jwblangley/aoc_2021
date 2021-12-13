@@ -5,7 +5,7 @@ def min_distance_fuel_cost(arr, burn_rate=lambda x: x):
 
 
 def triangular_number(x):
-    return x * (x + 1) / 2
+    return x * (x + 1) // 2
 
 
 if __name__ == "__main__":
@@ -17,5 +17,5 @@ if __name__ == "__main__":
     meet_point = min_distance_fuel_cost(crabs)
     print(f"Meet point (linear burn rate): {meet_point}")
 
-    meet_point = min_distance_fuel_cost(crabs)
-    print(f"Meet point (linear burn rate): {meet_point}")
+    meet_point = min_distance_fuel_cost(crabs, burn_rate=triangular_number)
+    print(f"Meet point (triangular burn rate): {meet_point}")
