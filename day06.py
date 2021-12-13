@@ -6,20 +6,19 @@ ADULT_AGE = 2
 
 class LaternfishSimulation:
     def __init__(self, arr):
-        self.fish = np.array(arr, dtype=int)
+        self.timer_quantities = [0] * (GESTATION_PERIOD + ADULT_AGE)
+        for v in arr:
+            self.timer_quantities[v] += 1
 
     def num_fish(self):
-        return len(self.fish)
+        return sum(self.timer_quantities)
 
     def simulate_day(self):
-        self.fish -= 1
+        num_reproduce = self.timer_quantities[0]
+        self.timer_quantities = self.timer_quantities[1:] + [0]
 
-        # Reproduce
-        num_new_fish = len(self.fish[self.fish < 0])
-        self.fish[self.fish < 0] = GESTATION_PERIOD - 1
-        self.fish = np.append(
-            self.fish, [GESTATION_PERIOD + ADULT_AGE - 1] * num_new_fish
-        )
+        self.timer_quantities[GESTATION_PERIOD - 1] += num_reproduce
+        self.timer_quantities[GESTATION_PERIOD + ADULT_AGE - 1] += num_reproduce
 
 
 if __name__ == "__main__":
@@ -37,7 +36,6 @@ if __name__ == "__main__":
     # Part 2
     PART_2_DAYS = 256
     for i in range(PART_2_DAYS - NUM_DAYS):
-        print(f"Day {NUM_DAYS + i}")
         sim.simulate_day()
 
     print(f"Number of fish after {PART_2_DAYS} days: {sim.num_fish()}")
