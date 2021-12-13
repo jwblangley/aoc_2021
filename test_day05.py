@@ -159,9 +159,14 @@ def test_count_line_non_diagonal(line, grid_size, exp):
             (3, 3),
             [[0, 1, 0], [1, 2, 1], [0, 1, 0]],
         ),
+        (
+            [Line(Point(0, 0), Point(2, 2)), Line(Point(0, 2), Point(2, 0))],
+            (3, 3),
+            [[1, 0, 1], [0, 2, 0], [1, 0, 1]],
+        ),
     ],
 )
-def test_count_line_non_diagonal_multiline(lines, grid_size, exp):
+def test_count_line_multiline(lines, grid_size, exp):
     # GIVEN
     """
     input: line
@@ -203,3 +208,30 @@ def test_is_fourty_five_degree(line, exp):
 
     # THEN
     assert res == exp
+
+
+@pytest.mark.parametrize(
+    "line,grid_size,exp",
+    [
+        (Line(Point(0, 0), Point(2, 2)), (3, 3), [[1, 0, 0], [0, 1, 0], [0, 0, 1]]),
+        (Line(Point(0, 0), Point(1, 1)), (3, 3), [[1, 0, 0], [0, 1, 0], [0, 0, 0]]),
+        (Line(Point(0, 0), Point(0, 0)), (3, 3), [[1, 0, 0], [0, 0, 0], [0, 0, 0]]),
+        (Line(Point(2, 0), Point(0, 2)), (3, 3), [[0, 0, 1], [0, 1, 0], [1, 0, 0]]),
+        (Line(Point(2, 0), Point(1, 1)), (3, 3), [[0, 0, 1], [0, 1, 0], [0, 0, 0]]),
+        (Line(Point(2, 0), Point(2, 0)), (3, 3), [[0, 0, 1], [0, 0, 0], [0, 0, 0]]),
+        (Line(Point(1, 1), Point(2, 0)), (3, 3), [[0, 0, 1], [0, 1, 0], [0, 0, 0]]),
+    ],
+)
+def test_count_line_diagonal(line, grid_size, exp):
+    # GIVEN
+    """
+    input: line
+    expected result: exp
+    """
+    li = LineIntersections(grid_size)
+
+    # WHEN
+    li.count_line(line)
+
+    # THEN
+    assert np.array_equal(li.grid, np.array(exp, dtype=int))
