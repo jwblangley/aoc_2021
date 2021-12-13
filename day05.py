@@ -80,3 +80,11 @@ if __name__ == "__main__":
 
     num_overlaps = (li.grid >= 2).sum()
     print(f"Number of overlaps (no diagonals): {num_overlaps}")
+
+    li = LineIntersections(GRID_SIZE)
+    with open("inputs/day05_input.txt", "r") as lines:
+        for line in (parse_line_string(l) for l in lines):
+            li.count_line(line)
+
+    num_overlaps = (li.grid >= 2).sum()
+    print(f"Number of overlaps: {num_overlaps}")
