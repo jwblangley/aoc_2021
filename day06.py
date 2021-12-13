@@ -33,3 +33,11 @@ if __name__ == "__main__":
         sim.simulate_day()
 
     print(f"Number of fish after {NUM_DAYS} days: {sim.num_fish()}")
+
+    # Part 2
+    PART_2_DAYS = 256
+    for i in range(PART_2_DAYS - NUM_DAYS):
+        print(f"Day {NUM_DAYS + i}")
+        sim.simulate_day()
+
+    print(f"Number of fish after {PART_2_DAYS} days: {sim.num_fish()}")

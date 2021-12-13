@@ -29,29 +29,6 @@ def test_num_fish_equal_initial(arr, exp):
 
 
 @pytest.mark.parametrize(
-    "arr,exp",
-    [
-        ([1], [0]),
-        ([1, 1, 1, 1], [0, 0, 0, 0]),
-        ([1, 2, 3, 4], [0, 1, 2, 3]),
-    ],
-)
-def test_day_decrements_counter(arr, exp):
-    # GIVEN
-    """
-    input: arr
-    expected value: exp
-    """
-    sim = LaternfishSimulation(arr)
-
-    # WHEN
-    sim.simulate_day()
-
-    # THEN
-    assert np.array_equal(sim.fish, np.array(exp, dtype=int))
-
-
-@pytest.mark.parametrize(
     "arr,new_total",
     [
         ([0], 2),
@@ -74,30 +51,6 @@ def test_reproduce_on_day_zero(arr, new_total):
 
     # THEN
     assert sim.num_fish() == new_total
-
-
-@pytest.mark.parametrize(
-    "arr,exp",
-    [
-        ([0], [6, 8]),
-        ([0, 0], [6, 6, 8, 8]),
-        ([0, 1], [6, 0, 8]),
-        ([0, 1, 2, 0, 2, 0], [6, 0, 1, 6, 1, 6, 8, 8, 8]),
-    ],
-)
-def test_reproduction_timers(arr, exp):
-    # GIVEN
-    """
-    input: arr
-    expected timers: exp
-    """
-    sim = LaternfishSimulation(arr)
-
-    # WHEN
-    sim.simulate_day()
-
-    # THEN
-    assert np.array_equal(sim.fish, np.array(exp, dtype=int))
 
 
 @pytest.mark.parametrize(
@@ -143,12 +96,10 @@ def test_multi_day_simulation(arr, day_results):
     acc_results = []
     for i in range(num_days):
         sim.simulate_day()
-        acc_results.append(list(sim.fish))
+        acc_results.append(sim.num_fish())
 
     # THEN
-    assert np.array_equal(
-        np.array(acc_results, dtype=object), np.array(day_results, dtype=object)
-    )
+    assert acc_results == [len(pop) for pop in day_results]
 
 
 @pytest.mark.parametrize("arr,days,exp", [([3, 4, 3, 1, 2], 80, 5934)])
