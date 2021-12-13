@@ -10,8 +10,19 @@
 # 8    : abcdefg : 7
 # 9    : abcdfg  : 6
 
+UNIQUE_LENGTHS = [2, 3, 4, 7]
+
 
 def parse_line(line):
     signal_patterns, output_value = (t.strip().split(" ") for t in line.split("|"))
 
     return signal_patterns, output_value
+
+
+def count_match_length_patterns(it, match_lengths=UNIQUE_LENGTHS):
+    return len([v for v in it if len(v) in match_lengths])
+
+
+if __name__ == "__main__":
+    with open("inputs/day08_input.txt", "r") as data:
+        pass
