@@ -146,7 +146,9 @@ def test_multi_day_simulation(arr, day_results):
         acc_results.append(list(sim.fish))
 
     # THEN
-    assert np.array_equal(np.array(acc_results, dtype=object), np.array(day_results, dtype=object))
+    assert np.array_equal(
+        np.array(acc_results, dtype=object), np.array(day_results, dtype=object)
+    )
 
 
 @pytest.mark.parametrize("arr,days,exp", [([3, 4, 3, 1, 2], 80, 5934)])

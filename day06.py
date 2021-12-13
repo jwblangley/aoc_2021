@@ -12,4 +12,11 @@ class LaternfishSimulation:
         return len(self.fish)
 
     def simulate_day(self):
-        pass
+        self.fish -= 1
+
+        # Reproduce
+        num_new_fish = len(self.fish[self.fish < 0])
+        self.fish[self.fish < 0] = GESTATION_PERIOD - 1
+        self.fish = np.append(
+            self.fish, [GESTATION_PERIOD + ADULT_AGE - 1] * num_new_fish
+        )
