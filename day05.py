@@ -57,20 +57,15 @@ class LineIntersections:
                 f"Line overflows grid. line: {line}, grid: {self.grid.shape}"
             )
 
-        if is_diagonal(line):
-            if is_fourty_five_degree(line):
-                length = abs(line.start.x - line.end.x)
-                if length == 0:
-                    self.grid[line.start.y, line.start.x] += 1
-                    return
-                dx = 1 if line.start.x < line.end.x else -1
-                dy = 1 if line.start.y < line.end.y else -1
-                for i in range(length + 1):
-                    self.grid[line.start.y + i * dy, line.start.x + i * dx] += 1
-            else:
-                raise ValueError("Unsupported non-fourty-five-degree diagonal line")
-        else:
-            self.grid[min(y1, y2) : max(y1, y2) + 1, min(x1, x2) : max(x1, x2) + 1] += 1
+        if is_diagonal(line) and not is_fourty_five_degree(line):
+            raise ValueError("Unsupported non-fourty-five-degree diagonal line")
+
+        length = max(abs(line.start.x - line.end.x), abs(line.start.y - line.end.y))
+        dx = np.sign(line.end.x - line.start.x)
+        dy = np.sign(line.end.y - line.start.y)
+
+        for i in range(length + 1):
+            self.grid[line.start.y + i * dy, line.start.x + i * dx] += 1
 
 
 if __name__ == "__main__":
