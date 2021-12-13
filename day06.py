@@ -20,3 +20,16 @@ class LaternfishSimulation:
         self.fish = np.append(
             self.fish, [GESTATION_PERIOD + ADULT_AGE - 1] * num_new_fish
         )
+
+
+if __name__ == "__main__":
+    NUM_DAYS = 80
+    with open("inputs/day06_input.txt", "r") as data:
+        line = next(data)
+    init_state = [int(t) for t in line.split(",")]
+    sim = LaternfishSimulation(init_state)
+
+    for i in range(NUM_DAYS):
+        sim.simulate_day()
+
+    print(f"Number of fish after {NUM_DAYS} days: {sim.num_fish()}")
