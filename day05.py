@@ -26,6 +26,10 @@ def is_diagonal(line):
     return not (line.start.x == line.end.x or line.start.y == line.end.y)
 
 
+def is_fourty_five_degree(line):
+    return abs(line.start.x - line.end.x) == abs(line.start.y - line.end.y)
+
+
 class LineIntersections:
     def __init__(self, grid_size):
         self.grid = np.zeros(grid_size, dtype=int)

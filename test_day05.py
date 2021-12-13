@@ -2,7 +2,14 @@ import pytest
 
 import numpy as np
 
-from day05 import LineIntersections, parse_line_string, is_diagonal, Point, Line
+from day05 import (
+    LineIntersections,
+    is_fourty_five_degree,
+    parse_line_string,
+    is_diagonal,
+    Point,
+    Line,
+)
 
 
 @pytest.mark.parametrize(
@@ -168,3 +175,31 @@ def test_count_line_non_diagonal_multiline(lines, grid_size, exp):
 
     # THEN
     assert np.array_equal(li.grid, np.array(exp, dtype=int))
+
+
+@pytest.mark.parametrize(
+    "line,exp",
+    [
+        (Line(Point(1, 1), Point(2, 1)), False),
+        (Line(Point(1, 1), Point(5, 1)), False),
+        (Line(Point(1, 1), Point(2, 2)), True),
+        (Line(Point(2, 2), Point(1, 1)), True),
+        (Line(Point(1, 1), Point(1, 5)), False),
+        (Line(Point(1, 1), Point(3, 5)), False),
+        (Line(Point(5, 5), Point(2, 2)), True),
+        (Line(Point(5, 5), Point(2, 8)), True),
+        (Line(Point(5, 5), Point(8, 2)), True),
+    ],
+)
+def test_is_fourty_five_degree(line, exp):
+    # GIVEN
+    """
+    input: line
+    expected value: exp
+    """
+
+    # WHEN
+    res = is_fourty_five_degree(line)
+
+    # THEN
+    assert res == exp
