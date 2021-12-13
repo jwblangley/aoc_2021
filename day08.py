@@ -25,4 +25,9 @@ def count_match_length_patterns(it, match_lengths=UNIQUE_LENGTHS):
 
 if __name__ == "__main__":
     with open("inputs/day08_input.txt", "r") as data:
-        pass
+        part1 = sum(
+            count_match_length_patterns(output_value)
+            for signal_patterns, output_value in (parse_line(line) for line in data)
+        )
+
+    print(f"Part 1: {part1}")
