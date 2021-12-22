@@ -38,6 +38,15 @@ def num_flows_to(grid, i, j, prev=0, seen=None):
     return 0
 
 
+def n_largest_basin_sizes(grid, n):
+    inds = np.dstack(np.meshgrid(np.arange(grid.shape[1]), np.arange(grid.shape[0])))
+    lps = get_low_points(grid)
+    lp_ids = inds[lps]
+
+    assert len(lp_ids) >= n
+    return sorted([num_flows_to(grid, i, j) for j, i in lp_ids])[-n:]
+
+
 if __name__ == "__main__":
     with open("inputs/day09_input.txt", "r") as data:
         grid = np.array([[int(c) for c in line.strip()] for line in data])

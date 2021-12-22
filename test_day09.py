@@ -2,7 +2,7 @@ import pytest
 
 import numpy as np
 
-from day09 import get_low_points, num_flows_to
+from day09 import get_low_points, n_largest_basin_sizes, num_flows_to
 
 
 @pytest.mark.parametrize(
@@ -102,10 +102,39 @@ def test_num_flows_to(grid, i, j, exp):
     """
     grid = np.array(grid, dtype=int)
 
-    print(grid)
-
     # WHEN
     res = num_flows_to(grid, i, j)
 
     # THEN
     assert res == exp
+
+
+@pytest.mark.parametrize(
+    "grid,n,exp",
+    [
+        # fmt: off
+        (
+            [[2, 1, 9, 9, 9, 4, 3, 2, 1, 0],
+            [3, 9, 8, 7, 8, 9, 4, 9, 2, 1],
+            [9, 8, 5, 6, 7, 8, 9, 8, 9, 2],
+            [8, 7, 6, 7, 8, 9, 6, 7, 8, 9],
+            [9, 8, 9, 9, 9, 6, 5, 6, 7, 8]],
+            3,
+            [9, 9, 14]
+        ),
+        # fmt:on
+    ],
+)
+def test_n_largest_basin_sizes(grid, n, exp):
+    # GIVEN
+    """
+    input: grid, n
+    expected value: exp
+    """
+    grid = np.array(grid, dtype=int)
+
+    # WHEN
+    res = n_largest_basin_sizes(grid, n)
+
+    # THEN
+    assert sorted(res) == sorted(exp)
