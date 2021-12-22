@@ -54,3 +54,6 @@ if __name__ == "__main__":
     low_points = get_low_points(grid)
     total_risk = (1 + grid)[low_points].sum()
     print(f"Total risk: {total_risk}")
+
+    three_largest_basin_size_prod = np.prod(n_largest_basin_sizes(grid, 3))
+    print(f"Product of three largest basin sizes: {three_largest_basin_size_prod}")
