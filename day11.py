@@ -45,3 +45,14 @@ def step(grid):
         grid[all_flashes] = 0
 
     return total_flashes
+
+
+if __name__ == "__main__":
+    with open("inputs/day11_input.txt", "r") as data:
+        grid = np.array([[int(c) for c in line.strip()] for line in data])
+
+    total_flashes = 0
+    for i in range(100):
+        total_flashes += step(grid)
+
+    print(f"Total flashes after 100 steps: {total_flashes}")
