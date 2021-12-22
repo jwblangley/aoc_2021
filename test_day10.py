@@ -1,6 +1,6 @@
 import pytest
 
-from day10 import is_corrupt_parenthesis
+from day10 import is_valid_parantheses
 
 
 @pytest.mark.parametrize(
@@ -39,7 +39,7 @@ from day10 import is_corrupt_parenthesis
         ("<{([{{}}[<[[[<>{}]]]>[]]", list(reversed("])}>"))),
     ],
 )
-def test_is_corrupt_parenthesis(value, exp):
+def test_is_valid_parentheses(value, exp):
     # GIVEN
     """
     input: value
@@ -47,7 +47,7 @@ def test_is_corrupt_parenthesis(value, exp):
     """
 
     # WHEN
-    res = is_corrupt_parenthesis(value)
+    res = is_valid_parantheses(value)
 
     # THEN
     assert res == exp

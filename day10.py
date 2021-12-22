@@ -13,7 +13,7 @@ score_map = {
 }
 
 
-def is_corrupt_parenthesis(string):
+def is_valid_parantheses(string):
     stack = []
     for c in string:
         if c in parantheses.keys():
@@ -27,9 +27,9 @@ def is_corrupt_parenthesis(string):
 if __name__ == "__main__":
     with open("inputs/day10_input.txt", "r") as data:
         total_score = sum(
-            score_map[is_corrupt_parenthesis(line)]
+            score_map[is_valid_parantheses(line)]
             for line in data
-            if not isinstance(is_corrupt_parenthesis(line), list)
+            if not isinstance(is_valid_parantheses(line), list)
         )
 
     print(f"Total score: {total_score}")
