@@ -1,6 +1,6 @@
 import pytest
 
-from day10 import is_valid_parenthesis
+from day10 import is_corrupt_parenthesis
 
 
 @pytest.mark.parametrize(
@@ -42,7 +42,7 @@ def test_is_corrupt_parenthesis(value, exp):
     """
 
     # WHEN
-    res = is_valid_parenthesis(value)
+    res = is_corrupt_parenthesis(value)
 
     # THEN
     assert res == exp
