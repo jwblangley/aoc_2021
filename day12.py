@@ -76,3 +76,8 @@ if __name__ == "__main__":
 
     num_routes = count_paths_to_end(all_caves["start"])
     print(f"Number of paths: {num_routes}")
+
+    num_routes = count_paths_to_end(
+        all_caves["start"], single_small_cave_double_visit=True
+    )
+    print(f"Number of paths with single small cave double visit: {num_routes}")
