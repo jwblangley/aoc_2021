@@ -180,3 +180,94 @@ def test_count_paths_to_end_very_complex():
 
     # THEN
     assert res == 226
+
+
+def test_count_paths_to_end_larger_single_double_visit():
+    # GIVEN
+    start = Cave("start")
+    end = Cave("end")
+    a = Cave("A")
+    b = Cave("b")
+    c = Cave("c")
+    d = Cave("d")
+
+    start.connect(a)
+    start.connect(b)
+    a.connect(c)
+    a.connect(b)
+    b.connect(d)
+    a.connect(end)
+    b.connect(end)
+
+    # WHEN
+    res = count_paths_to_end(start, single_small_cave_double_visit=True)
+
+    # THEN
+    assert res == 36
+
+
+def test_count_paths_to_end_complex_single_double_visit():
+    # GIVEN
+    start = Cave("start")
+    end = Cave("end")
+    dc = Cave("dc")
+    hn = Cave("HN")
+    kj = Cave("kj")
+    ln = Cave("LN")
+    sa = Cave("sa")
+
+    dc.connect(end)
+    hn.connect(start)
+    start.connect(kj)
+    dc.connect(start)
+    dc.connect(hn)
+    ln.connect(dc)
+    hn.connect(end)
+    kj.connect(sa)
+    kj.connect(hn)
+    kj.connect(dc)
+
+    # WHEN
+    res = count_paths_to_end(start, single_small_cave_double_visit=True)
+
+    # THEN
+    assert res == 103
+
+
+def test_count_paths_to_end_very_complex_single_double_visit():
+    # GIVEN
+    start = Cave("start")
+    end = Cave("end")
+    fs = Cave("fs")
+    he = Cave("he")
+    dx = Cave("DX")
+    pj = Cave("pj")
+    zg = Cave("zg")
+    sl = Cave("sl")
+    rw = Cave("RW")
+    wi = Cave("WI")
+
+    fs.connect(end)
+    he.connect(dx)
+    fs.connect(he)
+    start.connect(dx)
+    pj.connect(dx)
+    end.connect(zg)
+    zg.connect(sl)
+    zg.connect(pj)
+    pj.connect(he)
+    rw.connect(he)
+    fs.connect(dx)
+    pj.connect(rw)
+    zg.connect(rw)
+    start.connect(pj)
+    he.connect(wi)
+    zg.connect(he)
+    pj.connect(fs)
+    start.connect(rw)
+
+    # WHEN
+    res = count_paths_to_end(start, single_small_cave_double_visit=True)
+
+    # THEN
+    assert res == 3509

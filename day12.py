@@ -11,7 +11,9 @@ class Cave:
         other.neighbours.append(self)
 
 
-def count_paths_to_end(start_cave, path=None, end_cave_uid="end"):
+def count_paths_to_end(
+    start_cave, path=None, end_cave_uid="end", single_small_cave_double_visit=False
+):
     # N.B: Does not detect infinite loops
     if path is None:
         path = list()
