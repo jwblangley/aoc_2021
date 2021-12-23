@@ -52,7 +52,14 @@ if __name__ == "__main__":
         grid = np.array([[int(c) for c in line.strip()] for line in data])
 
     total_flashes = 0
-    for i in range(100):
-        total_flashes += step(grid)
+    num_flashes = 0
+    step_num = 0
 
-    print(f"Total flashes after 100 steps: {total_flashes}")
+    while num_flashes != grid.shape[0] * grid.shape[1]:
+        step_num += 1
+        num_flashes = step(grid)
+        total_flashes += num_flashes
+        if step_num == 100:
+            print(f"Total flashes after 100 steps: {total_flashes}")
+
+    print(f"Number of steps until all flash: {step_num}")
