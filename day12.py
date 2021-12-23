@@ -26,3 +26,28 @@ def count_paths_to_end(start_cave, path=None, end_cave_uid="end"):
         count_paths_to_end(nb, path=[*path, start_cave.uid], end_cave_uid=end_cave_uid)
         for nb in start_cave.neighbours
     )
+
+
+if __name__ == "__main__":
+    all_caves = {}
+
+    with open("inputs/day12_input.txt", "r") as data:
+        for line in data:
+            uid_a, uid_b = line.strip().split("-")
+
+            if uid_a in all_caves.keys():
+                cave_a = all_caves[uid_a]
+            else:
+                cave_a = Cave(uid_a)
+                all_caves[uid_a] = cave_a
+
+            if uid_b in all_caves.keys():
+                cave_b = all_caves[uid_b]
+            else:
+                cave_b = Cave(uid_b)
+                all_caves[uid_b] = cave_b
+
+            cave_a.connect(cave_b)
+
+    num_routes = count_paths_to_end(all_caves["start"])
+    print(f"Number of paths: {num_routes}")
